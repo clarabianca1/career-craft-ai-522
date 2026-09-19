@@ -14,16 +14,21 @@ import type {
   Skill,
 } from "./types";
 
+/** Acesso dinâmico por nome de tabela (usado pelos helpers genéricos). */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as unknown as { from: (table: string) => any };
+
 function tableQuery<T>(table: string, userId: string | undefined, order?: string) {
   return async (): Promise<T[]> => {
     if (!userId) return [];
-    let builder = supabase.from(table).select("*").eq("user_id", userId);
+    let builder = db.from(table).select("*").eq("user_id", userId);
     if (order) builder = builder.order(order, { ascending: true });
     const { data, error } = await builder;
     if (error) throw new Error(error.message);
     return (data ?? []) as T[];
   };
 }
+
 
 export function useProfile() {
   const { user } = useAuth();
@@ -205,7 +210,7 @@ export function useRowMutation(table: string, queryKey: string) {
 
   const insert = useMutation({
     mutationFn: async (values: Record<string, unknown>) => {
-      const { error } = await supabase.from(table).insert({ ...values, user_id: user!.id });
+      const { error } = await db.from(table).insert({ ...values, user_id: user!.id });
       if (error) throw new Error(error.message);
     },
     onSuccess: invalidate,
@@ -213,7 +218,7 @@ export function useRowMutation(table: string, queryKey: string) {
 
   const update = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from(table).update(values).eq("id", id);
+      const { error } = await db.from(table).update(values).eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: invalidate,
@@ -221,7 +226,7 @@ export function useRowMutation(table: string, queryKey: string) {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(table).delete().eq("id", id);
+      const { error } = await db.from(table).delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: invalidate,
