@@ -210,7 +210,7 @@ export function useRowMutation(table: string, queryKey: string) {
 
   const insert = useMutation({
     mutationFn: async (values: Record<string, unknown>) => {
-      const { error } = await supabase.from(table).insert({ ...values, user_id: user!.id });
+      const { error } = await db.from(table).insert({ ...values, user_id: user!.id });
       if (error) throw new Error(error.message);
     },
     onSuccess: invalidate,
@@ -218,7 +218,7 @@ export function useRowMutation(table: string, queryKey: string) {
 
   const update = useMutation({
     mutationFn: async ({ id, values }: { id: string; values: Record<string, unknown> }) => {
-      const { error } = await supabase.from(table).update(values).eq("id", id);
+      const { error } = await db.from(table).update(values).eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: invalidate,
@@ -226,7 +226,7 @@ export function useRowMutation(table: string, queryKey: string) {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(table).delete().eq("id", id);
+      const { error } = await db.from(table).delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: invalidate,
