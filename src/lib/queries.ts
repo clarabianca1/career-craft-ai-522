@@ -14,16 +14,21 @@ import type {
   Skill,
 } from "./types";
 
+/** Acesso dinâmico por nome de tabela (usado pelos helpers genéricos). */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const db = supabase as unknown as { from: (table: string) => any };
+
 function tableQuery<T>(table: string, userId: string | undefined, order?: string) {
   return async (): Promise<T[]> => {
     if (!userId) return [];
-    let builder = supabase.from(table).select("*").eq("user_id", userId);
+    let builder = db.from(table).select("*").eq("user_id", userId);
     if (order) builder = builder.order(order, { ascending: true });
     const { data, error } = await builder;
     if (error) throw new Error(error.message);
     return (data ?? []) as T[];
   };
 }
+
 
 export function useProfile() {
   const { user } = useAuth();
