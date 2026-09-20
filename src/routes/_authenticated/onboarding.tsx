@@ -122,13 +122,13 @@ function Onboarding() {
 
   const savePersonal = async () => {
     await saveProfile.mutateAsync({
-      name: personal.name || profile?.name ?? null,
+      name: (personal.name || profile?.name) ?? null,
       email: profile?.email ?? user?.email ?? null,
-      phone: personal.phone || profile?.phone ?? null,
-      city: personal.city || profile?.city ?? null,
-      state: personal.state || profile?.state ?? null,
-      linkedin: personal.linkedin || profile?.linkedin ?? null,
-      portfolio: personal.portfolio || profile?.portfolio ?? null,
+      phone: (personal.phone || profile?.phone) ?? null,
+      city: (personal.city || profile?.city) ?? null,
+      state: (personal.state || profile?.state) ?? null,
+      linkedin: (personal.linkedin || profile?.linkedin) ?? null,
+      portfolio: (personal.portfolio || profile?.portfolio) ?? null,
     });
   };
 
@@ -144,18 +144,18 @@ function Onboarding() {
       }
       if (step === 1) {
         await saveProfile.mutateAsync({
-          target_role: goal.target_role || profile?.target_role ?? null,
-          professional_area: goal.professional_area || profile?.professional_area ?? null,
-          seniority: goal.seniority || profile?.seniority ?? null,
-          work_model: goal.work_model || profile?.work_model ?? null,
-          desired_location: goal.desired_location || profile?.desired_location ?? null,
-          salary_expectation: goal.salary_expectation || profile?.salary_expectation ?? null,
-          summary: goal.summary || profile?.summary ?? null,
+          target_role: (goal.target_role || profile?.target_role) ?? null,
+          professional_area: (goal.professional_area || profile?.professional_area) ?? null,
+          seniority: (goal.seniority || profile?.seniority) ?? null,
+          work_model: (goal.work_model || profile?.work_model) ?? null,
+          desired_location: (goal.desired_location || profile?.desired_location) ?? null,
+          salary_expectation: (goal.salary_expectation || profile?.salary_expectation) ?? null,
+          summary: (goal.summary || profile?.summary) ?? null,
         });
       }
       if (step === STEPS.length - 1) {
         await saveProfile.mutateAsync({
-          resume_text: resumeText || profile?.resume_text ?? null,
+          resume_text: (resumeText || profile?.resume_text) ?? null,
           profile_completion: completion,
           onboarding_completed: true,
         });
