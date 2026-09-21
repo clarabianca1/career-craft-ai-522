@@ -28,7 +28,7 @@ import { analyzeATS } from "@/lib/ai.functions";
 import { useAuth } from "@/lib/auth";
 import { exportResumeDocx, exportResumePdf } from "@/lib/export";
 import { useJob, useProfileBundle, useResume } from "@/lib/queries";
-import { buildBaseResume, resumeFileName } from "@/lib/resume";
+import { buildBaseResume, resumeFileName, normalizeResumeContent } from "@/lib/resume";
 import type { AtsAnalysis, ResumeContent } from "@/lib/types";
 
 export const Route = createFileRoute("/_authenticated/resumes/$resumeId")({
@@ -64,7 +64,7 @@ function ResumeEditor() {
 
   useEffect(() => {
     if (resume && !content) {
-      setContent(resume.content);
+      setContent(normalizeResumeContent(resume.content));
       setTemplate(resume.template);
       setAts(resume.ats_analysis ?? null);
     }
