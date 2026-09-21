@@ -18,9 +18,7 @@ import {
 } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { exportResumePdf } from "@/lib/export";
 import { useJobs, useResumes } from "@/lib/queries";
-import { resumeFileName } from "@/lib/resume";
 
 export const Route = createFileRoute("/_authenticated/resumes/")({
   head: () => ({
