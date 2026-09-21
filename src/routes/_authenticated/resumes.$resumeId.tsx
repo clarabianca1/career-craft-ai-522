@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -10,10 +10,12 @@ import {
   Loader2,
   Save,
   ScanLine,
+  FileWarning,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { AppShell } from "@/components/AppShell";
+import { EmptyState } from "@/components/EmptyState";
 import { RESUME_TEMPLATES, ResumePreview } from "@/components/ResumePreview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
