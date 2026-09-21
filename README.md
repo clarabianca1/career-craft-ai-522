@@ -1,5 +1,9 @@
 # Match & Craft
 
+# Link para Lovable
+
+https://career-craft-ai-522.lovable.app
+
 # Prompt único para o Lovable
 
 Crie do zero um aplicativo web SaaS completo, moderno e responsivo de **matchmaking entre candidatos e vagas de emprego**, com geração automática de **currículos personalizados e ATS-friendly para cada vaga**.
