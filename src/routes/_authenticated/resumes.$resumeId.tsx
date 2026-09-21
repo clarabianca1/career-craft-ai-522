@@ -103,6 +103,26 @@ function ResumeEditor() {
     onError: () => toast.error("Não foi possível executar a verificação ATS."),
   });
 
+  if (!isLoading && !resume) {
+    return (
+      <AppShell
+        title="Currículo não encontrado"
+        breadcrumb={[{ label: "Meus currículos", to: "/resumes" }, { label: "Editor" }]}
+      >
+        <EmptyState
+          icon={FileWarning}
+          title="Currículo não encontrado"
+          description="Esse currículo não existe mais ou pertence a outra conta."
+          action={
+            <Button asChild size="sm">
+              <Link to="/resumes">Ver meus currículos</Link>
+            </Button>
+          }
+        />
+      </AppShell>
+    );
+  }
+
   if (isLoading || !content || !visible) {
     return (
       <AppShell title="Editor de currículo">
@@ -110,6 +130,7 @@ function ResumeEditor() {
       </AppShell>
     );
   }
+
 
   const fileName = resumeFileName(content, job ?? null);
 
