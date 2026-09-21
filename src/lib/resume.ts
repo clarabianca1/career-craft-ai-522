@@ -211,3 +211,29 @@ export function resumeFileName(content: ResumeContent, job: Job | null) {
     .filter(Boolean)
     .join("_");
 }
+
+const EMPTY_PERSONAL = {
+  name: "",
+  email: "",
+  phone: "",
+  location: "",
+  linkedin: "",
+  portfolio: "",
+  github: "",
+};
+
+/** Garante que um conteúdo vindo do banco tenha todos os campos esperados. */
+export function normalizeResumeContent(raw: unknown): ResumeContent {
+  const value = (raw && typeof raw === "object" ? raw : {}) as Partial<ResumeContent>;
+  return {
+    headline: value.headline ?? "",
+    summary: value.summary ?? "",
+    personal: { ...EMPTY_PERSONAL, ...(value.personal ?? {}) },
+    experiences: Array.isArray(value.experiences) ? value.experiences : [],
+    education: Array.isArray(value.education) ? value.education : [],
+    hardSkills: Array.isArray(value.hardSkills) ? value.hardSkills : [],
+    softSkills: Array.isArray(value.softSkills) ? value.softSkills : [],
+    languages: Array.isArray(value.languages) ? value.languages : [],
+    certifications: Array.isArray(value.certifications) ? value.certifications : [],
+  };
+}

@@ -337,6 +337,26 @@ function JobDetail() {
             <Button className="w-full" onClick={() => setDialogOpen(true)}>
               <Wand2 className="mr-1.5 size-4" /> Criar currículo
             </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={async () => {
+                const { error } = await supabase.from("applications").insert({
+                  user_id: user!.id,
+                  job_id: jobId,
+                  status: "saved",
+                  job_url: job.source_url,
+                });
+                if (error) {
+                  toast.error("Não foi possível salvar a candidatura.");
+                  return;
+                }
+                queryClient.invalidateQueries({ queryKey: ["applications", user?.id] });
+                toast.success("Vaga salva em Minhas candidaturas.");
+              }}
+            >
+              Salvar candidatura
+            </Button>
             <Button asChild variant="outline" className="w-full">
               <a
                 href={job.source_url ?? "#"}

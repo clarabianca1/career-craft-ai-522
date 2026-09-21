@@ -85,10 +85,13 @@ function AuthPage() {
     });
     setBusy(false);
     if (error) {
+      const weak = error.message.toLowerCase().includes("weak");
       toast.error(
         error.message.includes("already registered")
           ? "Este email já possui conta. Faça login."
-          : "Não foi possível criar sua conta.",
+          : weak
+            ? "Essa senha é muito comum e já apareceu em vazamentos. Escolha outra."
+            : "Não foi possível criar sua conta.",
       );
       return;
     }

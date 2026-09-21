@@ -46,10 +46,11 @@ function ApplicationsPage() {
   const move = async (applicationId: string, status: ApplicationStage) => {
     const { error } = await supabase
       .from("applications")
-      .update({
-        status,
-        applied_at: status === "applied" ? new Date().toISOString() : undefined,
-      })
+      .update(
+        status === "applied"
+          ? { status, applied_at: new Date().toISOString() }
+          : { status },
+      )
       .eq("id", applicationId);
     if (error) {
       toast.error("Não foi possível mover a candidatura.");
