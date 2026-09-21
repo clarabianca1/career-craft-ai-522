@@ -16,9 +16,14 @@ function AuthenticatedLayout() {
   const redirectTo = useRef(pathname);
   useEffect(() => {
     if (!loading && !session) {
-      navigate({ to: "/auth", search: { redirect: redirectTo.current }, replace: true });
+      const target =
+        redirectTo.current && !redirectTo.current.startsWith("/auth")
+          ? redirectTo.current
+          : "/dashboard";
+      navigate({ to: "/auth", search: { redirect: target }, replace: true });
     }
   }, [loading, session, navigate]);
+
 
   if (loading || !session) {
     return (
