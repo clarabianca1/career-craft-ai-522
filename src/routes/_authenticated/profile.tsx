@@ -114,12 +114,15 @@ function ProfilePage() {
               ["github", "GitHub"],
               ["target_role", "Cargo-alvo"],
               ["professional_area", "Área profissional"],
-            ].map(([key, label]) => (
+            ].map((entry) => {
+              const [key, label] = entry as [string, string];
+              return (
               <div key={key} className="space-y-1.5">
                 <Label className="text-xs text-muted-foreground">{label}</Label>
                 <Input value={value(key)} onChange={(event) => setValue(key, event.target.value)} />
-              </div>
-            ))}
+                </div>
+              );
+            })}
             <div className="space-y-1.5">
               <Label className="text-xs text-muted-foreground">Senioridade</Label>
               <Select value={value("seniority")} onValueChange={(next) => setValue("seniority", next)}>
