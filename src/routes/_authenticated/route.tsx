@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
@@ -13,11 +13,12 @@ function AuthenticatedLayout() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
+  const redirectTo = useRef(pathname);
   useEffect(() => {
     if (!loading && !session) {
-      navigate({ to: "/auth", search: { redirect: pathname }, replace: true });
+      navigate({ to: "/auth", search: { redirect: redirectTo.current }, replace: true });
     }
-  }, [loading, session, navigate, pathname]);
+  }, [loading, session, navigate]);
 
   if (loading || !session) {
     return (
